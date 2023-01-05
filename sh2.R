@@ -22,7 +22,15 @@ ui <- dashboardPage(
   ),
   
   dashboardBody(
-    
+   # create tabs 
+    tabsetPanel(
+      tabPanel(
+        
+      ),
+      tabPanel(
+        
+      )
+    )
   )
 )
 
