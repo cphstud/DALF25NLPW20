@@ -27,7 +27,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     width=350,
     br(),
-    h4("Select inpulllt here", style = "padding-left:20px")
+    h4("Select input here", style = "padding-left:20px")
   ),
   
   dashboardBody(
@@ -37,7 +37,8 @@ ui <- dashboardPage(
       #type="pills",
       id="ts",
       tabPanel(
-        title="Country View"
+        title="Country View",
+        plotOutput("plot_data_country")
       ),
       tabPanel(
         title="T2",
@@ -48,11 +49,11 @@ ui <- dashboardPage(
 )
 
 server <- function(input,output,session) {
-  
+  output$plot_data_country <- renderPlot({
   ggplot (data=clean_dat, aes(y=new_confirmed,x=date, color=country_name))+
     geom_line(size=1.5) +
     labs(color="Country Name")
-  
+  })
 }
 
 shinyApp(ui,server)
