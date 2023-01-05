@@ -7,13 +7,6 @@ library(shinycssloaders)
 library(shinydashboard)
 
 dat <- readRDS("data/subregion_agg.rds")
-clean_dat <- dat %>% 
-  select(!subregion1_name) %>% 
-  filter(country_name=="Canada" & date >= "2020-01-01" & date <= "2020-12-31") %>% 
-  group_by(country_name, date) %>% 
-  summarise_all(sum) %>% 
-  select( country_name, date, "new_confirmed") %>% 
-  arrange(date)
 
 
 #ui <- fluidPage(
@@ -69,6 +62,19 @@ ui <- dashboardPage(
 )
 
 server <- function(input,output,session) {
+  
+  # generate data here
+  
+  clean_dat <- dat %>% 
+    select(!subregion1_name) %>% 
+    filter(country_name=="Canada" & date >= "2020-01-01" & date <= "2020-12-31") %>% 
+    group_by(country_name, date) %>% 
+    summarise_all(sum) %>% 
+    select( country_name, date, "new_confirmed") %>% 
+    arrange(date)
+  
+  # done data 
+  
   output$plot_data_country <- renderPlot({
   ggplot (data=clean_dat, aes(y=new_confirmed,x=date, color=country_name))+
     geom_line(size=1.5) +
