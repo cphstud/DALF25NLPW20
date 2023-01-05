@@ -27,14 +27,34 @@ ui <- dashboardPage(
   dashboardSidebar(
     width=350,
     br(),
-    h4("Select input here", style = "padding-left:20px")
+    h4("Select input here", style = "padding-left:20px"),
+    
+    selectInput(
+      inputId = "mtr",
+      label = "Select Metric",
+      choices = sort(colnames(dat)[4:ncol(dat)]),
+      selected = "new_confirmed"
+    ),
+    
+   selectInput( inputId = "ctr",
+      multiple = T,
+      label = "Select countries to compare",
+      choices = sort(unique(dat$country_name)),
+      selected = c("Denmark","Norway","Sweeden")
+    ),
+    
+    dateRangeInput(
+      inputId = "dR",
+      label = "Select date range",
+      start = "2022-01-01",
+      end = "2022-12-31"
+    )
   ),
   
   dashboardBody(
    # create tabs 
     tabsetPanel(
       type="tabs",
-      #type="pills",
       id="ts",
       tabPanel(
         title="Country View",
