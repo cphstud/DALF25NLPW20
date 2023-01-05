@@ -24,11 +24,15 @@ ui <- dashboardPage(
   dashboardBody(
    # create tabs 
     tabsetPanel(
+      type="tabs",
+      #type="pills",
+      id="ts",
       tabPanel(
-        
+        title="Country View"
       ),
       tabPanel(
-        
+        title="T2",
+        "Tab 2"
       )
     )
   )
