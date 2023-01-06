@@ -33,14 +33,14 @@ ui <- dashboardPage(
       multiple = T,
       label = "Select countries to compare",
       choices = sort(unique(dat$country_name)),
-      selected = c("Denmark","Norway","Sweeden")
+      selected = c("Denmark","Norway","Germany")
     ),
     
     dateRangeInput(
       inputId = "dR",
       label = "Select date range",
-      start = "2022-01-01",
-      end = "2022-12-31"
+      start = "2020-01-01",
+      end = "2020-12-31"
     )
   ),
   
@@ -65,7 +65,6 @@ server <- function(input,output,session) {
   
   # generate data here
   
-  #clean_data_country <- function() {
   clean_data_country <- reactive({
   clean_dat <- dat %>% 
     select(!subregion1_name) %>% 
@@ -74,7 +73,7 @@ server <- function(input,output,session) {
     group_by(country_name, date) %>% 
     summarise_all(sum) %>% 
     #select( country_name, date, "matric") %>% 
-    select( country_name, date, input$mr) %>% 
+    select( country_name, date, input$mtr) %>% 
     set_names(c("country_name","date","metric")) %>% 
     arrange(date)
   })
@@ -82,7 +81,7 @@ server <- function(input,output,session) {
   # done data 
   
   output$plot_data_country <- renderPlot({
-  ggplot (data=clean_dat, aes(y=new_confirmed,x=date, color=country_name))+
+  ggplot (data=clean_data_country(), aes(y=metric,x=date, color=country_name))+
     geom_line(size=1.5) +
     labs(color="Country Name")
   })
