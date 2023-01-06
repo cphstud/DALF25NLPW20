@@ -65,13 +65,19 @@ server <- function(input,output,session) {
   
   # generate data here
   
+  #clean_data_country <- function() {
+  clean_data_country <- reactive({
   clean_dat <- dat %>% 
     select(!subregion1_name) %>% 
-    filter(country_name=="Canada" & date >= "2020-01-01" & date <= "2020-12-31") %>% 
+    #filter(country_name=="Canada" & date >= "2020-01-01" & date <= "2020-12-31") %>% 
+    filter(country_name %in% input$ctr & date >= input$dR[1] & date <= input$dR[2]) %>% 
     group_by(country_name, date) %>% 
     summarise_all(sum) %>% 
-    select( country_name, date, "new_confirmed") %>% 
+    #select( country_name, date, "matric") %>% 
+    select( country_name, date, input$mr) %>% 
+    set_names(c("country_name","date","metric")) %>% 
     arrange(date)
+  })
   
   # done data 
   
