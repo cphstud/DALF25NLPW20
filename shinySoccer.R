@@ -1,18 +1,18 @@
 library(shiny)
+library(purrr)
 library(DT)
 library(ggplot2)
 library(dplyr)
-data(msleep)
 
 
-df <- msleep
-sleepData <- select(msleep, name, sleep_total)
+players=read.csv("allplayers.csv")
+
 ui <- fluidPage(
   titlePanel("Soccer player data"),
   sidebarLayout(
     sidebarPanel(
       h3("Select the categorial variable:"),
-      selectizeInput(inputId = "var","frequency of variable",select="vore", choices=c("vore","genus","order","conservation")),
+      selectizeInput(inputId = "var","frequency of variable",select="", choices=c("vore","genus","order","conservation")),
       br(),
       h3("Select the numerical variable:"),
       selectizeInput(inputId = "catvar","distribution of variable",select="brainwt", choices=c("vore","genus","order","conservation")),
@@ -26,7 +26,7 @@ ui <- fluidPage(
       textOutput("info"),
       tableOutput("table")
     )
-    )
+  )
 )
 
 server <- function(input,output) {
@@ -51,8 +51,8 @@ server <- function(input,output) {
   # 
   # handle input
 }
-  
-  
-  
+
+
+
 shinyApp(ui = ui, server = server)
 
